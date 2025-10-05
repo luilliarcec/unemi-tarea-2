@@ -35,6 +35,9 @@ jobs:
         run: |
           php artisan migrate --env=testing
           php artisan test --coverage --env=testing
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
 
       - name: 📊 Upload coverage report
         if: success()
