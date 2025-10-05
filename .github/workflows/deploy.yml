@@ -33,7 +33,7 @@ jobs:
           touch database/database.sqlite
 
       - name: 📦 Archive build
-        run: tar -czf app.tar.gz .
+        run: tar -czf app.tar.gz --exclude=*.git
 
       - name: 📤 Upload tarball
         uses: actions/upload-artifact@v4
@@ -95,7 +95,10 @@ jobs:
         working-directory: ./laravel
         run: |
           php artisan migrate --env=testing
-          php artisan test --coverage --env=testing
+          php artisan test --coverage-html ./storage/coverage-html --env=testing
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
 
       - name: 📊 Upload coverage report
         if: success()
