@@ -33,13 +33,13 @@ jobs:
           touch database/database.sqlite
 
       - name: 📦 Archive build
-        run: tar -czf app.tar.gz --exclude=*.git
+        run: tar -czf app-build.tar.gz --exclude=*.git *
 
       - name: 📤 Upload tarball
         uses: actions/upload-artifact@v4
         with:
           name: app-build
-          path: app.tar.gz
+          path: app-build.tar.gz
 
   pint:
     name: 🎨 Code Style Check
@@ -55,8 +55,8 @@ jobs:
 
       - name: 📦 Extract build
         run: |
-          mkdir laravel
-          tar -xzf app.tar.gz -C laravel
+          mkdir app
+          tar -xzf app-build.tar.gz -C app
 
       - name: 🧰 Set up PHP
         uses: shivammathur/setup-php@v2
@@ -64,7 +64,7 @@ jobs:
           php-version: '8.4'
 
       - name: 🎨 Run Pint
-        working-directory: ./laravel
+        working-directory: ./app
         run: ./vendor/bin/pint --test
 
   test:
@@ -81,8 +81,8 @@ jobs:
 
       - name: 📦 Extract build
         run: |
-          mkdir laravel
-          tar -xzf app.tar.gz -C laravel
+          mkdir app
+          tar -xzf app-build.tar.gz -C app
 
       - name: 🧰 Set up PHP
         uses: shivammathur/setup-php@v2
@@ -92,7 +92,7 @@ jobs:
           coverage: xdebug
 
       - name: 🧪 Run Laravel Tests
-        working-directory: ./laravel
+        working-directory: ./app
         run: |
           php artisan migrate --env=testing
           php artisan test --coverage-html ./storage/coverage-html --env=testing
@@ -105,4 +105,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: laravel/storage/coverage-html
+          path: app/storage/coverage-html
