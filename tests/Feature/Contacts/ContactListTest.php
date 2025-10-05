@@ -19,7 +19,7 @@ beforeEach(function () {
 });
 
 test('la app responde con el listado de contactos cuando se lo solicita', function () {
-    $this->get($this->uri)
+    $this->getJson($this->uri)
         ->assertStatus(200)
         ->assertExactJson([
             'data' => [
@@ -38,7 +38,7 @@ test('la app responde con el listado de contactos cuando se lo solicita', functi
 });
 
 test('la app responde con los registros filtrados por nombre', function () {
-    $this->get($this->uri.'?name=Luis')
+    $this->getJson($this->uri.'?name=Luis')
         ->assertStatus(200)
         ->assertExactJson([
             'data' => [
@@ -52,7 +52,7 @@ test('la app responde con los registros filtrados por nombre', function () {
 });
 
 test('la app responde con los registros filtrados por phone', function () {
-    $this->get($this->uri.'?phone=0123456789')
+    $this->getJson($this->uri.'?phone=0123456789')
         ->assertStatus(200)
         ->assertExactJson([
             'data' => [
