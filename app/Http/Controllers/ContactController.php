@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contact;
+use App\Rules\PhoneRule;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class ContactController extends Controller
 {
@@ -28,22 +30,23 @@ class ContactController extends Controller
 
         return response()->noContent();
     }
-    public function store(Request $request): JsonResponse
-        {
-            $request->validate([
-                'name' => [
-                    'required',
-                    'string',
-                    'max:255',
-                ],
-                'phone' => [
-                    'required',
-                    new PhoneRule,
-                ],
-            ]);
 
-            return response()->json([
-                'data' => Contact::create($request->all()),
-            ]);
-        }
+    public function store(Request $request): JsonResponse
+    {
+        $request->validate([
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+            'phone' => [
+                'required',
+                new PhoneRule,
+            ],
+        ]);
+
+        return response()->json([
+            'data' => Contact::create($request->all()),
+        ]);
+    }
 }
