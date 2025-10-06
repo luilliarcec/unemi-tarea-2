@@ -30,3 +30,21 @@ class ContactController extends Controller
     }
 
 }
+public function store(Request $request): JsonResponse
+    {
+        $request->validate([
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+            'phone' => [
+                'required',
+                new PhoneRule,
+            ],
+        ]);
+
+        return response()->json([
+            'data' => Contact::create($request->all()),
+        ]);
+    }
