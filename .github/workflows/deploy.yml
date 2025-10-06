@@ -95,7 +95,7 @@ jobs:
         working-directory: ./app
         run: |
           php artisan migrate --env=testing
-          php artisan test --coverage-html ./storage/coverage-html --env=testing
+          php artisan test --min=75 --coverage-html ./storage/coverage-html --env=testing
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/database.sqlite
