@@ -21,4 +21,12 @@ class ContactController extends Controller
                 ->get(['id', 'name', 'phone']),
         ]);
     }
+
+    public function destroy(Contact $contact): Response
+    {
+        $contact->delete();
+
+        return response()->noContent();
+    }
+
 }
