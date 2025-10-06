@@ -101,7 +101,6 @@ jobs:
           DB_DATABASE: database/database.sqlite
 
       - name: 📊 Upload coverage report
-        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
